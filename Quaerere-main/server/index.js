@@ -1,0 +1,25 @@
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const searchRoutes = require('./routes/search')
+const similarRoutes = require('./routes/similar')
+const contentRoutes = require('./routes/content')
+const userRoutes = require('./routes/user')
+const saveDataRoutes = require('./routes/saveData')
+const connectDB = require('./db')
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cors())
+require("dotenv").config({ path: './.env' })
+connectDB()
+
+app.use('/api', userRoutes)
+app.use('/api', searchRoutes)
+app.use('/api', similarRoutes)
+app.use('/api', contentRoutes)
+app.use('/api', saveDataRoutes)
+
+app.listen(process.env.PORT, () => {
+    console.log(`server is running on ${process.env.PORT}`)
+})
